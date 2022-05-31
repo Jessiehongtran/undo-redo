@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div class="btns">
+            <button onclick="undo()">Undo</button>
+            <button onclick="redo()">Redo</button>
+        </div>
+        <textarea class="text"></textarea>
+        <button class="display-btn">Done</button>
+        <p class="display"></p>
+        <script>
+            const words = []
+            const trash = []
+            let text = ""
+            const textInput = document.getElementsByClassName('text')[0];
+            const displayBtn = document.getElementsByClassName('display-btn')[0];
+            const displayText = document.getElementsByClassName('display')[0];
+
+            textInput.addEventListener('change', e => handleChange(e))
+            displayBtn.addEventListener('click', () => handleSubmit())
+
+            function handleChange(e){
+                text = e.target.value;
+            }
+
+            function handleSubmit(){
+                displayText.innerHTML = text;
+                let j = 0
+                for (let i = 0; i < text.length; i++){
+                    if (text[i] === " "){
+                        words.push(text.slice(j, i))
+                        j = i+ 1
+                    } 
+                    if (i === text.length - 1){
+                        words.push(text.slice(j, i+1))
+                    }
+                }
+                console.log(text, words)
+            }
+
+            function undo(){
+                trash.push(words.splice(words.length -1, 1))
+                console.log(words)
+                displayText.innerHTML = words.join(' ')
+            }
+
+            function redo(){
+                if (trash.length > 0){
+                    words.push(trash.slice(trash.length - 1, trash.length)[0])
+                    trash.splice(trash.length - 1, 1)
+                    displayText.innerHTML = words.join(' ')
+                }
+            }
+
+        </script>
+    </body>
+</html>
