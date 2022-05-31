@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
     </head>
     <body>
-        <div class="btns">
-            <button onclick="undo()">Undo</button>
-            <button onclick="redo()">Redo</button>
+        <div class="container">
+            <h1>Nothing is lost!</h1>
+            <div class="wrapper">
+                <div class="left">
+                    <textarea class="text" placeholder="Type something"></textarea>
+                    <button class="display-btn">Done</button>
+                </div>
+                <div class="right">
+                    <div class="btns">
+                        <button class="do-btn" onclick="undo()">
+                            <i class="fa fa-undo" aria-hidden="true"></i>
+                        </button>
+                        <button class="do-btn" onclick="redo()">
+                            <i class="fa fa-repeat" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <p class="display"></p>
+                </div>
+            </div>
         </div>
-        <textarea class="text"></textarea>
-        <button class="display-btn">Done</button>
-        <p class="display"></p>
         <script>
             const words = []
             const trash = []
@@ -28,6 +45,7 @@
 
             function handleSubmit(){
                 displayText.innerHTML = text;
+                textInput.value = ""
                 let j = 0
                 for (let i = 0; i < text.length; i++){
                     if (text[i] === " "){
