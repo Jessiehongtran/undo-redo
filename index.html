@@ -23,6 +23,9 @@
                         <button class="do-btn" onclick="redo()">
                             <i class="fa fa-repeat" aria-hidden="true"></i>
                         </button>
+                        <button class="style-btn" onclick="transformText('b')">B</button>
+                        <button class="style-btn" onclick="transformText('i')"><i>I</i></button>
+                        <button class="style-btn" onclick="transformText('u')">U</button>
                     </div>
                     <p class="display"></p>
                 </div>
@@ -32,6 +35,7 @@
             const words = []
             const trash = []
             let text = ""
+            let selectedTextObj = {}
             const textInput = document.getElementsByClassName('text')[0];
             const displayBtn = document.getElementsByClassName('display-btn')[0];
             const displayText = document.getElementsByClassName('display')[0];
@@ -72,6 +76,28 @@
                     displayText.innerHTML = words.join(' ')
                 }
             }
+
+            function getSelectedText(){
+                selectedTextObj = window.getSelection()
+                console.log(selectedTextObj)
+            }
+
+            function transformText(command){
+                if (selectedTextObj){
+                    let startInd = selectedTextObj.anchorOffset < selectedTextObj.extentOffset ? selectedTextObj.anchorOffset : selectedTextObj.extentOffset;
+                    let endInd = selectedTextObj.anchorOffset > selectedTextObj.extentOffset ? selectedTextObj.anchorOffset : selectedTextObj.extentOffset;
+                    let curText = displayText.innerHTML;
+                    console.log(curText)
+                    let newText
+                    if (startInd >= 0 && endInd <= curText.length ){
+                        newText = curText.substring(0, startInd) + `<${command}>${selectedTextObj.toString()}</${command}>` + curText.substring(endInd, curText.length )
+                    }
+                    displayText.innerHTML = newText;
+                }
+            }
+
+            displayText.onmouseup = getSelectedText;
+            displayText.onkeyup = getSelectedText;
 
         </script>
     </body>
