@@ -23,9 +23,9 @@
                         <button class="do-btn" onclick="redo()">
                             <i class="fa fa-repeat" aria-hidden="true"></i>
                         </button>
-                        <button class="style-btn" onclick="transformText('b')">B</button>
+                        <button class="style-btn" onclick="transformText('b')"><b>B</b></button>
                         <button class="style-btn" onclick="transformText('i')"><i>I</i></button>
-                        <button class="style-btn" onclick="transformText('u')">U</button>
+                        <button class="style-btn" onclick="transformText('u')"><u>U</u></button>
                     </div>
                     <p class="display"></p>
                 </div>
@@ -82,17 +82,49 @@
                 console.log(selectedTextObj)
             }
 
+            function isCharacterALetter(char) {
+                return (/[a-zA-Z]/).test(char)
+            }
+
+            function applyStyling(startInd, endInd, curText, command){
+                console.log(startInd, endInd)
+                let startStyleInd = startInd
+                let endStyleInd = curText.length
+                let m = 0
+                let i = 0
+                while (i < curText.length){
+                    if (m === startInd){
+                        startStyleInd = i
+                    }
+                    if (m === endInd){
+                        endStyleInd = i
+                    }
+                    if ((i == 0 || i == curText.length - 1) && isCharacterALetter(curText[i])){
+                        m += 1
+                    }
+                    if (i > 0 && i < curText.length - 1 && isCharacterALetter(curText[i-1]) && isCharacterALetter(curText[i+1]) ){
+                        m += 1
+                    }
+                    if (i > 0 && i < curText.length - 1 && curText[i-1] === ' ' && isCharacterALetter(curText[i+1]) ){
+                        m += 1
+                    }
+                    if (i > 0 && i < curText.length - 1 && isCharacterALetter(curText[i-1]) && curText[i+1] === ' ' ){
+                        m += 1
+                    }
+                   
+                    i += 1
+                }
+            
+                displayText.innerHTML = curText.substring(0, startStyleInd) + `<${command}>${selectedTextObj.toString()}</${command}>` + curText.substring(endStyleInd, curText.length )
+
+            }
+
             function transformText(command){
                 if (selectedTextObj){
-                    let startInd = selectedTextObj.anchorOffset < selectedTextObj.extentOffset ? selectedTextObj.anchorOffset : selectedTextObj.extentOffset;
-                    let endInd = selectedTextObj.anchorOffset > selectedTextObj.extentOffset ? selectedTextObj.anchorOffset : selectedTextObj.extentOffset;
                     let curText = displayText.innerHTML;
-                    console.log(curText)
-                    let newText
-                    if (startInd >= 0 && endInd <= curText.length ){
-                        newText = curText.substring(0, startInd) + `<${command}>${selectedTextObj.toString()}</${command}>` + curText.substring(endInd, curText.length )
-                    }
-                    displayText.innerHTML = newText;
+                    let startInd = selectedTextObj.anchorOffset < selectedTextObj.extentOffset ? selectedTextObj.anchorOffset : selectedTextObj.extentOffset;
+                    let endInd = selectedTextObj.anchorOffset > selectedTextObj.extentOffset ? selectedTextObj.anchorOffset : selectedTextObj.extentOffset;;
+                    applyStyling(startInd, endInd, curText, command);
                 }
             }
 
