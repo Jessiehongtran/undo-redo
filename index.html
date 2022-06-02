@@ -125,7 +125,8 @@
                     let startInd = selectedTextObj.anchorOffset < selectedTextObj.extentOffset ? selectedTextObj.anchorOffset : selectedTextObj.extentOffset;
                     let endInd = selectedTextObj.anchorOffset > selectedTextObj.extentOffset ? selectedTextObj.anchorOffset : selectedTextObj.extentOffset;;
                     applyStyling(startInd, endInd, curText, command);
-                }
+                    selectedTextObj = undefined;
+                } 
             }
 
             displayText.onmouseup = getSelectedText;
