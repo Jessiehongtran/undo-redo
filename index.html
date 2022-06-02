@@ -114,8 +114,12 @@
                    
                     i += 1
                 }
-            
-                displayText.innerHTML = curText.substring(0, startStyleInd) + `<${command}>${selectedTextObj.toString()}</${command}>` + curText.substring(endStyleInd, curText.length )
+
+                if (endStyleInd !== curText.length){
+                    displayText.innerHTML = curText.substring(0, startStyleInd) + `<${command}>${selectedTextObj.toString()}</${command}>` + curText.substring(endStyleInd-1, curText.length )
+                } else {
+                    displayText.innerHTML = curText.substring(0, startStyleInd) + `<${command}>${selectedTextObj.toString()}</${command}>`
+                }
 
             }
 
