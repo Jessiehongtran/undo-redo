@@ -12,7 +12,7 @@
             <h1>Nothing is lost!</h1>
             <div class="wrapper">
                 <div class="left">
-                    <textarea class="text" placeholder="Type something"></textarea>
+                    <textarea class="text" placeholder="What you write on the left will be pushed to the right"></textarea>
                     <button class="display-btn">Done</button>
                 </div>
                 <div class="right">
@@ -44,11 +44,18 @@
             displayBtn.addEventListener('click', () => handleSubmit())
 
             function handleChange(e){
+                console.log('changing')
                 text = e.target.value;
             }
 
             function handleSubmit(){
-                displayText.innerHTML = text;
+                let curText = displayText.innerHTML
+                if (text[0] !== ' ' && curText.length > 0 && curText[curText.length -1] !== ' '){
+                    displayText.innerHTML += ' ';
+                    displayText.innerHTML += text;
+                } else {
+                    displayText.innerHTML += text;
+                }
                 textInput.value = ""
                 let j = 0
                 for (let i = 0; i < text.length; i++){
