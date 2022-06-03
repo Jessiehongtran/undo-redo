@@ -87,39 +87,56 @@
             }
 
             function applyStyling(startInd, endInd, curText, command){
-                console.log(startInd, endInd)
+                console.log(curText, startInd, endInd)
                 let startStyleInd = startInd
                 let endStyleInd = curText.length
                 let m = 0
                 let i = 0
+
+                // ?, char with '>' ahead, char with '<' after
                 while (i < curText.length){
+                    console.log(m, i, curText[i])
                     if (m === startInd){
                         startStyleInd = i
                     }
                     if (m === endInd){
                         endStyleInd = i
+                        break
                     }
-                    if ((i == 0 || i == curText.length - 1) && isCharacterALetter(curText[i])){
-                        m += 1
+
+                    if (curText[i] != '<' && curText[i] != '>' ){
+                        if (i == 0 || i == curText.length - 1){
+                            m += 1
+                        }
+                        if (i > 0 && curText[i-1] != '<' && i < curText.length - 1 && curText[i+1] != '>'){
+                            m += 1
+                        }
                     }
-                    if (i > 0 && i < curText.length - 1 && isCharacterALetter(curText[i-1]) && isCharacterALetter(curText[i+1]) ){
-                        m += 1
-                    }
-                    if (i > 0 && i < curText.length - 1 && curText[i-1] === ' ' && isCharacterALetter(curText[i+1]) ){
-                        m += 1
-                    }
-                    if (i > 0 && i < curText.length - 1 && isCharacterALetter(curText[i-1]) && curText[i+1] === ' ' ){
-                        m += 1
-                    }
+                    // if ((i == 0 || i == curText.length - 1) && isCharacterALetter(curText[i])){
+                    //     m += 1
+                    // }
+                    // if (i > 0 && i < curText.length - 1 && isCharacterALetter(curText[i-1]) && isCharacterALetter(curText[i+1]) ){
+                    //     m += 1
+                    // }
+                    // if (i > 0 && i < curText.length - 1 && curText[i-1] === ' ' && isCharacterALetter(curText[i+1]) ){
+                    //     m += 1
+                    // }
+                    // if (i > 0 && i < curText.length - 1 && isCharacterALetter(curText[i-1]) && curText[i+1] === ' ' ){
+                    //     m += 1
+                    // }
                    
                     i += 1
                 }
 
                 if (endStyleInd !== curText.length){
-                    displayText.innerHTML = curText.substring(0, startStyleInd) + `<${command}>${selectedTextObj.toString()}</${command}>` + curText.substring(endStyleInd-1, curText.length )
+                    console.log('lak 1', startStyleInd, endStyleInd, selectedTextObj.toString())
+                    displayText.innerHTML = curText.substring(0, startStyleInd) + `<${command}>${selectedTextObj.toString()}</${command}>` + curText.substring(endStyleInd, curText.length )
                 } else {
+                    console.log('lak 2', startStyleInd, endStyleInd, selectedTextObj.toString())
                     displayText.innerHTML = curText.substring(0, startStyleInd) + `<${command}>${selectedTextObj.toString()}</${command}>`
                 }
+
+                console.log('le', displayText.innerHTML)
 
             }
 
