@@ -63,7 +63,6 @@
             }
 
             function undo(){
-                console.log(prev, undoInd, prev[undoInd])
                 if (prev.length > 0 && undoInd >= 0){
                     next.push(displayText.innerHTML)
                     displayText.innerHTML = prev[undoInd]
@@ -80,7 +79,6 @@
 
             function getSelectedText(){
                 selectedTextObj = window.getSelection()
-                console.log(selectedTextObj)
             }
 
             function isCharacterALetter(char) {
