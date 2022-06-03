@@ -142,6 +142,8 @@
                 } else {
                     displayText.innerHTML = curText.substring(0, startStyleInd) + `<${command}>${selectedTextObj.toString()}</${command}>`
                 }
+                prev.push(displayText.innerHTML)
+                undoInd = prev.length -2;
 
             }
 
