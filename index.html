@@ -32,8 +32,12 @@
             </div>
         </div>
         <script>
-            const words = []
-            const trash = []
+            // const words = []
+            // const trash = []
+            const prev = ['']
+            const next = []
+            let undoInd = prev.length - 1;
+            let redoInd;
             let text = ""
             let selectedTextObj = {}
             const textInput = document.getElementsByClassName('text')[0];
@@ -56,32 +60,39 @@
                 } else {
                     displayText.innerHTML += text;
                 }
+                prev.push(text)
+                undoInd = prev.length -2;
                 textInput.value = ""
-                let j = 0
-                for (let i = 0; i < text.length; i++){
-                    if (text[i] === " "){
-                        words.push(text.slice(j, i))
-                        j = i+ 1
-                    } 
-                    if (i === text.length - 1){
-                        words.push(text.slice(j, i+1))
-                    }
-                }
-                console.log(text, words)
+                // let j = 0
+                // for (let i = 0; i < text.length; i++){
+                //     if (text[i] === " "){
+                //         words.push(text.slice(j, i))
+                //         j = i+ 1
+                //     } 
+                //     if (i === text.length - 1){
+                //         words.push(text.slice(j, i+1))
+                //     }
+                // }
+                // console.log(text, words)
             }
 
             function undo(){
-                trash.push(words.splice(words.length -1, 1))
-                console.log(words)
-                displayText.innerHTML = words.join(' ')
+                // trash.push(words.splice(words.length -1, 1))
+                // console.log(words)
+                // displayText.innerHTML = words.join(' ')
+                console.log(prev, undoInd, prev[undoInd])
+                if (prev.length > 0 && undoInd >= 0){
+                    displayText.innerHTML = prev[undoInd]
+                    undoInd -= 1
+                }
             }
 
             function redo(){
-                if (trash.length > 0){
-                    words.push(trash.slice(trash.length - 1, trash.length)[0])
-                    trash.splice(trash.length - 1, 1)
-                    displayText.innerHTML = words.join(' ')
-                }
+                // if (trash.length > 0){
+                //     words.push(trash.slice(trash.length - 1, trash.length)[0])
+                //     trash.splice(trash.length - 1, 1)
+                //     displayText.innerHTML = words.join(' ')
+                // }
             }
 
             //there are two types of undo and redo, storing each word and returning each word is just away to restore typing, 
