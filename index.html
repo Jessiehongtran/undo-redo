@@ -10,6 +10,7 @@
     <body>
         <div class="container">
             <h1>Nothing is lost!</h1>
+            <p class="message">Mistake is welcome ☺</p>
             <div class="wrapper">
                 <div class="left">
                     <textarea class="text" placeholder="What you write on the left will be pushed to the right"></textarea>
@@ -79,6 +80,7 @@
 
             function getSelectedText(){
                 selectedTextObj = window.getSelection()
+                //note: focusOffset does not work right sometimes, this is a limitation
             }
 
             function isCharacterALetter(char) {
