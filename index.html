@@ -32,12 +32,10 @@
             </div>
         </div>
         <script>
-            // const words = []
-            // const trash = []
             const prev = ['']
             const next = []
             let undoInd = prev.length - 1;
-            let redoInd;
+            let redoInd = 0;
             let text = ""
             let selectedTextObj = {}
             const textInput = document.getElementsByClassName('text')[0];
@@ -48,7 +46,6 @@
             displayBtn.addEventListener('click', () => handleSubmit())
 
             function handleChange(e){
-                console.log('changing')
                 text = e.target.value;
             }
 
@@ -63,40 +60,23 @@
                 prev.push(text)
                 undoInd = prev.length -2;
                 textInput.value = ""
-                // let j = 0
-                // for (let i = 0; i < text.length; i++){
-                //     if (text[i] === " "){
-                //         words.push(text.slice(j, i))
-                //         j = i+ 1
-                //     } 
-                //     if (i === text.length - 1){
-                //         words.push(text.slice(j, i+1))
-                //     }
-                // }
-                // console.log(text, words)
             }
 
             function undo(){
-                // trash.push(words.splice(words.length -1, 1))
-                // console.log(words)
-                // displayText.innerHTML = words.join(' ')
                 console.log(prev, undoInd, prev[undoInd])
                 if (prev.length > 0 && undoInd >= 0){
+                    next.push(displayText.innerHTML)
                     displayText.innerHTML = prev[undoInd]
                     undoInd -= 1
                 }
             }
 
             function redo(){
-                // if (trash.length > 0){
-                //     words.push(trash.slice(trash.length - 1, trash.length)[0])
-                //     trash.splice(trash.length - 1, 1)
-                //     displayText.innerHTML = words.join(' ')
-                // }
+                if (next.length > 0){
+                    displayText.innerHTML = next[redoInd]
+                    redoInd += 1
+                }
             }
-
-            //there are two types of undo and redo, storing each word and returning each word is just away to restore typing, 
-            //a different way for it is to save the previous state (anytime a change is made to the displayText and undo will show that state, while redo will show the state you were ahead of )
 
             function getSelectedText(){
                 selectedTextObj = window.getSelection()
@@ -108,14 +88,12 @@
             }
 
             function applyStyling(startInd, endInd, curText, command){
-                console.log('startInd', startInd, 'endInd', endInd)
                 let startStyleInd = startInd
                 let endStyleInd = curText.length
                 let m = 0
                 let i = 0
 
                 while (i < curText.length){
-                    console.log('m', m, 'i', i, 'char', curText[i])
                     if (m === startInd){
                         startStyleInd = i
                     }
@@ -134,8 +112,6 @@
                    
                     i += 1
                 }
-
-                console.log('startStyleInd', startStyleInd, 'endStyleInd', endStyleInd, 'curText', curText);
 
                 if (endStyleInd !== curText.length){
                     displayText.innerHTML = curText.substring(0, startStyleInd) + `<${command}>${selectedTextObj.toString()}</${command}>` + curText.substring(endStyleInd, curText.length )
